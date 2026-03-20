@@ -40,7 +40,6 @@ classDiagram
     }
 
     Drivetrain <|.. MecanumDrivetrain : Mec Drive
-    HardwareManager --> Drivetrain : DT has hw managing system
     Drivetrain <|.. SwerveDrivetrain : Swerve Drive
     HardwareManager <|.. MotorManager : Motor HW System
     HardwareManager <|.. SwervePods : Swerve HW System
