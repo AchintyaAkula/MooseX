@@ -3,7 +3,6 @@
 ## Drive System
 ```mermaid
 classDiagram
-    direction LR
     class Drivetrain {
         <<interface>>
         +hwManager: HardwareManager
@@ -46,5 +45,6 @@ classDiagram
     HardwareManager <|.. SwervePods : Swerve HW System
     Drivetrain <|.. TankDrivetrain : Tank Drive
     Drivetrain o..o HardwareManager : DT contains Hardware Sys
+    HardwareManager o..o Drivetrain : DT contains Hardware Sys
     
 ```
