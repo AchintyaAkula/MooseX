@@ -1,14 +1,7 @@
 @file:Suppress("unused", "PackageName")
-
-/**
- * @author Achintya Akula, Sohum Arora, Topher Fontana
- */
-
 package com.apexpathing.util.math
 
 import com.apexpathing.geometry.Vector
-import com.apexpathing.util.math.ApexCoordinates
-import com.apexpathing.util.math.CoordinateSystem
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin

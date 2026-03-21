@@ -1,6 +1,7 @@
+@file:Suppress("unused")
+
 package com.apexpathing.util.math
 
-import android.R
 import kotlin.math.PI
 
 /**
