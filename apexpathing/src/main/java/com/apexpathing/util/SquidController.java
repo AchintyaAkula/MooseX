@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
  * A squID controller for follower
+ * It takes the square root of the P, but otherwise it's pretty normal for a controller
  * @author Xander Haemel - 31616
  */
 public class SquidController {
@@ -13,11 +14,10 @@ public class SquidController {
     private double derivative;
     private double lastError = 0;
     private double error = 0;
-    private double deadBand = 0.05;
+    private double motorDeadzone = 0.05;
 
     private double lastTimestamp = 0;
     private final ElapsedTime timer;
-
 
     public SquidController(double kP, double kI, double kD) {
         this.kP = kP;
@@ -65,7 +65,7 @@ public class SquidController {
         final double power = kPOut + kIOut + kDOut;
 
         //deadband, turns the motors off when the power is too slow to move the robot
-        if(Math.abs(power) < deadBand){
+        if(Math.abs(power) < motorDeadzone){
             return 0;
         }
 

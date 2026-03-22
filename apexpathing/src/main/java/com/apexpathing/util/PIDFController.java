@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
  * PIDF feedback controller.
+ * @author Xander Haemel -31616
  */
 public class PIDFController {
     public double kP, kI, kD, kF;
