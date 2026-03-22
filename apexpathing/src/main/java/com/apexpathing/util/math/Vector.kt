@@ -22,6 +22,7 @@ import kotlin.math.sin
  *
  * @author Achintya Akula - 30099 OmicronX
  * @author Sohum Arora
+ * @author Xander Haemel - 31616 404 Not Found
  */
 data class Vector
     @JvmOverloads constructor(
@@ -64,14 +65,14 @@ data class Vector
      *
      * @return The x-value of the vector
      */
-    fun xComponent() = x
+    fun getXComponent() = x
 
     /**
      * Function to get the x value of the given vector
      *
      * @return The y-value of the vector
      */
-    fun yComponent() = y
+    fun getYComponent() = y
 
     /**
      * Calculates the dot product of this vector and another vector

@@ -1,58 +1,112 @@
 package com.apexpathing.localization;
 
-import com.apexpathing.geometry.Pose2d;
 import com.apexpathing.util.math.Pose;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+
 /**
- * A localizer using Limelight vision data.
+ * Limelight Class localizer for apriltags rewritten for safety and accuracy.
+ * @author Krish Joshi - 26192 Heatwaves
+ * @author Xander Haemel - 31616 404 not found
  */
 public class LimelightLocalizer implements Localizer {
-    private Pose currentPose = new Pose(0, 0, 0);
-    private Pose currentVelocity = new Pose(0, 0, 0);
+    private final Limelight3A limelight3A;
+    private LLResult limelightResult;
+    private Pose lastKnownPose = new Pose(0, 0, 0);
 
-    public LimelightLocalizer(HardwareMap hardwareMap) {
-        // Initialization logic for Limelight would go here
-    }
+    private static final double METERS_TO_INCHES = 39.3701;
 
-    @Override
-    public void update() {
-        // Limelight update logic:
-        // 1. Get latest vision result
-        // 2. Transform to field coordinates
-        // 3. Update currentPose
-        // For now, this is a skeleton.
+    public LimelightLocalizer(HardwareMap hardwareMap, @NotNull String limelightName) {
+        limelight3A = hardwareMap.get(Limelight3A.class, limelightName);
     }
 
     /**
-     * Gets a pose 2d from the limelight assuming it's setup correctly
-     * @return the limelight in Pose 2D,
+     * Switch the limelight pipeline.
+     * @param pipelineNumber The pipeline index to switch to.
      */
-    public Pose getPose() {
-        Pose3D botPose = limelightResult.getBotpose_MT2();
-        double x = botPose.getPosition().x;
-        double y = botPose.getPosition().y;
-        double heading = botPose.getOrientation().getYaw(AngleUnit.RADIANS);
-        Pose returnPose = new Pose(x, y, heading);
-        return returnPose;
+    public void switchPipeline(int pipelineNumber) {
+        limelight3A.pipelineSwitch(pipelineNumber);
     }
 
+    /**
+     * Get fiducial results from the latest capture.
+     * @return the List of AprilTags with their respective IDs.
+     */
+    public List<LLResultTypes.FiducialResult> getTagIDs() {
+        if (limelightResult != null) {
+            return limelightResult.getFiducialResults();
+        }
+        return null;
+    }
+
+    /**
+     * Updates the robot orientation for Megatag2.
+     * @param headingDegrees The current robot heading in degrees.
+     */
+    public void updateHeadingForMT2(double headingDegrees) {
+        limelight3A.updateRobotOrientation(headingDegrees);
+    }
+
+    /**
+     * Returns the total latency (capture + pipeline/targeting + staleness) in milliseconds.
+     * @return Total vision latency in ms.
+     */
+    public double getLatencyMs() {
+        if (limelightResult != null) {
+            return limelightResult.getCaptureLatency() + limelightResult.getTargetingLatency() + limelightResult.getStaleness();
+        }
+        return 0;
+    }
+
+    /**
+     * Updates the limelight result from the hardware.
+     */
     @Override
-    public Pose getVelocity() {
-        return currentVelocity;
+    public void update() {
+        limelightResult = limelight3A.getLatestResult();
+        if (limelightResult != null && limelightResult.isValid()) {
+            Pose3D botPose = limelightResult.getBotpose_MT2();
+            if (botPose != null) {
+                double x = botPose.getPosition().x * METERS_TO_INCHES;
+                double y = botPose.getPosition().y * METERS_TO_INCHES;
+                double heading = botPose.getOrientation().getYaw(AngleUnit.RADIANS);
+                lastKnownPose = new Pose(x, y, heading);
+            }
+        }
     }
 
+    /**
+     * Gets the robot's current pose.
+     * @return The current pose if valid, otherwise the last known pose.
+     */
+    @Override
+    public Pose getPose() {
+        return lastKnownPose;
+    }
+
+    /**
+     * Sets the robot's current pose.
+     * @param pose The new pose.
+     */
     @Override
     public void setPose(Pose pose) {
-        this.currentPose = pose;
+        this.lastKnownPose = pose;
     }
 
-    public Pose updateWithVision(double x, double y, double heading) {
-        Pose returnPose = new Pose(x, y, heading);
-        this.currentPose = returnPose;
-        return returnPose;
+    /**
+     * Gets the robot's current velocity.
+     * @return The current velocity (not supported by Limelight directly, returns zero).
+     */
+    @Override
+    public Pose getVelocity() {
+        return new Pose(0, 0, 0);
     }
 }
