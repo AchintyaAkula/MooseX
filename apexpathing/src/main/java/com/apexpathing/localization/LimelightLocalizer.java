@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  * Limelight Class localizer for apriltags
- * @author Xander Haemel - 31616
+ * @author Xander Haemel - 31616 404 not found
  */
 public class LimelightLocalizer  {
     Limelight3A limelight3A;
