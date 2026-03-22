@@ -1,7 +1,7 @@
 package com.apexpathing.follower;
 
 import com.apexpathing.drivetrain.MecanumDrive;
-import com.apexpathing.geometry.Vector;
+import com.apexpathing.util.math.Vector;
 import com.apexpathing.util.math.Pose;
 
 

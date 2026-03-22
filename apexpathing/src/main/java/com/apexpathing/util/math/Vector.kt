@@ -22,6 +22,7 @@ import kotlin.math.sin
  *
  * @author Achintya Akula - 30099 OmicronX
  * @author Sohum Arora
+ * @author Xander Haemel - 31616 404 Not Found
  */
 data class Vector
     @JvmOverloads constructor(
@@ -64,14 +65,14 @@ data class Vector
      *
      * @return The x-value of the vector
      */
-    fun xComponent() = x
+    fun getXComponent() = x
 
     /**
      * Function to get the x value of the given vector
      *
      * @return The y-value of the vector
      */
-    fun yComponent() = y
+    fun getYComponent() = y
 
     /**
      * Calculates the dot product of this vector and another vector
@@ -98,7 +99,7 @@ data class Vector
      * @param ang The angle to rotate the vector by
      * @return A new vector that is the rotated form of this vector
      */
-    fun rotateVec(ang: Double) =
+    fun rotateVector(ang: Double) =
         fromPolar(magnitude, normalize(this.theta + ang))
 
     /**
@@ -108,7 +109,7 @@ data class Vector
      * @param ang The angle to rotate the vector by
      * @return This vector with the rotation applied to it
      */
-    fun rotatedVec(ang: Double) = apply {
+    fun rotatedVector(ang: Double) = apply {
        theta = normalize(theta + ang)
     }
 
@@ -124,7 +125,7 @@ data class Vector
      * Normalizes the vector to have a magnitude of 1.
      * @return The normalized vector.
      */
-    fun normalize(): Vector {
+    fun normalizeVector(): Vector {
         val mag = magnitude
         return if (mag > 1e-9) this / mag else Vector(0.0, 0.0)
     }
