@@ -13,19 +13,19 @@ import kotlin.math.sqrt
  * Provides methods for arithmetic functions with positions, flexible coordinate systems
  * Methods include:
  *   Utility Functions:
- *    - distanceTo
- *    - distanceFrom
- *    - distanceSquaredFrom
- *    - asVector
- *    - inCoordinateSystem
+ *    - [distanceTo]
+ *    - [distanceFrom]
+ *    - [distanceSquaredFrom]
+ *    - [asVector]
+ *    - [inCoordinateSystem]
  *
  *   Transformation functions:
- *    - reflectX
- *    - withReflectedX
- *    - reflectY
- *    - withReflectedY
- *    - rotate
- *    - rotated
+ *    - [reflectX]
+ *    - [withReflectedX]
+ *    - [reflectY]
+ *    - [withReflectedY]
+ *    - [rotate]
+ *    - [rotated]
  *
  * @author Achintya Akula - 30099 OmicronX
  * @author Sohum Arora
@@ -280,6 +280,7 @@ data class Pose
 
     /**
      * Debug Function to convert the position into a string that the user can use for debugging
+     * Provides more info than [toString]
      *
      * @return The string with x-y, heading, and coordSys information
      */
