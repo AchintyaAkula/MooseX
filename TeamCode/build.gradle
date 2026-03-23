@@ -23,7 +23,10 @@ android {
     }
 }
 
+repositories {
+    maven { url 'https://jitpack.io' }
+}
 dependencies {
     implementation project(':FtcRobotController')
-    implementation project(':apexpathing')
+    implementation 'com.github.MooseX-Pathing:ApexPathing:master-SNAPSHOT'
 }
