@@ -12,7 +12,9 @@ class ForwardVelocityTuner: OpMode() {
     private val dist = 40.0;
     private lateinit var drive : MecanumDrive;
     override fun init() {
-        drive = MecanumDrive(hardwareMap, dtConstants, localizer)
+        drive = MecanumDrive(hardwareMap, localizer, telemetry, dtConstants,
+            "lf", "rf", "lb", "rb",
+                    )
         drive.initDriveTrain()
     }
 
